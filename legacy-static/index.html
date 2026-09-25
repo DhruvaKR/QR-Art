@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR AllWays — Free QR Code Generator</title>
+<meta name="description" content="Create custom QR codes for URLs, WiFi, contacts, and more. Add logos, colors, and shapes. Free, fast, no sign-up.">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <span class="brand-mark">▦</span>
+      <span class="brand-name">QR AllWays</span>
+    </div>
+    <p class="tagline">Custom QR codes in seconds — free, private, no sign-up.</p>
+  </div>
+</header>
+
+<main class="wrap layout">
+
+  <section class="card" id="builderCard" aria-labelledby="builder-heading">
+    <h2 id="builder-heading" class="card-title">1. Choose content</h2>
+
+    <div class="type-picker" id="typePicker" role="tablist">
+      <button type="button" class="type-btn active" data-type="text" role="tab" aria-selected="true">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 4h16M4 10h16M4 16h10"/></svg>
+        <span>Text</span>
+      </button>
+      <button type="button" class="type-btn" data-type="url" role="tab" aria-selected="false">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="12" r="3"/><circle cx="16" cy="12" r="3"/><path d="M11 12h2"/></svg>
+        <span>URL</span>
+      </button>
+      <button type="button" class="type-btn" data-type="bulk" role="tab" aria-selected="false">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="11" height="11" rx="2"/><rect x="10" y="10" width="11" height="11" rx="2"/></svg>
+        <span>Bulk URLs</span>
+      </button>
+      <button type="button" class="type-btn" data-type="email" role="tab" aria-selected="false">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+        <span>Email</span>
+      </button>
+      <button type="button" class="type-btn" data-type="phone" role="tab" aria-selected="false">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>
+        <span>Phone</span>
+      </button>
+      <button type="button" class="type-btn" data-type="sms" role="tab" aria-selected="false">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4V4z"/></svg>
+        <span>SMS</span>
+      </button>
+      <button type="button" class="type-btn" data-type="wifi" role="tab" aria-selected="false">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 8.5a16 16 0 0120 0"/><path d="M5.5 12a11 11 0 0113 0"/><path d="M9 15.5a6 6 0 016 0"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></svg>
+        <span>WiFi</span>
+      </button>
+      <button type="button" class="type-btn" data-type="vcard" role="tab" aria-selected="false">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10.5" r="2.25"/><path d="M5.5 16.5c.6-2 2.4-3 3.5-3s2.9 1 3.5 3M14.5 9.5h4M14.5 13h4"/></svg>
+        <span>Contact</span>
+      </button>
+    </div>
+
+    <p class="type-description" id="typeDescription">Encode any plain text — a note, a message, anything.</p>
+
+    <div id="text-form" class="type-form active">
+      <label class="field">
+        <span>Text content</span>
+        <textarea id="textContent" maxlength="2000" placeholder="Type anything…"></textarea>
+      </label>
+    </div>
+
+    <div id="url-form" class="type-form">
+      <label class="field">
+        <span>Website URL</span>
+        <input type="url" id="urlInput" maxlength="500" placeholder="example.com">
+      </label>
+    </div>
+
+    <div id="bulk-form" class="type-form">
+      <label class="field">
+        <span>Multiple URLs <em>one per line</em></span>
+        <textarea id="bulkUrls" rows="8" placeholder="example.com&#10;another-site.com/page&#10;third-site.com"></textarea>
+      </label>
+      <p class="hint">Each line becomes its own QR code (up to 60 per batch). Blank lines are ignored.</p>
+    </div>
+
+    <div id="email-form" class="type-form">
+      <label class="field">
+        <span>Email address</span>
+        <input type="email" id="emailAddress" maxlength="254" placeholder="you@example.com">
+      </label>
+      <label class="field">
+        <span>Subject (optional)</span>
+        <input type="text" id="emailSubject" maxlength="100">
+      </label>
+      <label class="field">
+        <span>Message (optional)</span>
+        <textarea id="emailBody" maxlength="1000"></textarea>
+      </label>
+    </div>
+
+    <div id="phone-form" class="type-form">
+      <label class="field">
+        <span>Phone number</span>
+        <input type="tel" id="phoneNumber" maxlength="20" placeholder="+1 234 567 8900">
+      </label>
+    </div>
+
+    <div id="sms-form" class="type-form">
+      <label class="field">
+        <span>Phone number</span>
+        <input type="tel" id="smsNumber" maxlength="20" placeholder="+1 234 567 8900">
+      </label>
+      <label class="field">
+        <span>Message</span>
+        <textarea id="smsMessage" maxlength="160"></textarea>
+      </label>
+    </div>
+
+    <div id="wifi-form" class="type-form">
+      <label class="field">
+        <span>Network name (SSID)</span>
+        <input type="text" id="wifiSSID" maxlength="32" placeholder="MyWiFi">
+      </label>
+      <label class="field">
+        <span>Password</span>
+        <input type="text" id="wifiPassword" maxlength="63">
+      </label>
+      <label class="field">
+        <span>Security</span>
+        <select id="wifiSecurity">
+          <option value="WPA">WPA/WPA2</option>
+          <option value="WEP">WEP</option>
+          <option value="nopass">Open (no password)</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="vcard-form" class="type-form">
+      <div class="field-row">
+        <label class="field">
+          <span>First name</span>
+          <input type="text" id="firstName" maxlength="50">
+        </label>
+        <label class="field">
+          <span>Last name</span>
+          <input type="text" id="lastName" maxlength="50">
+        </label>
+      </div>
+      <label class="field">
+        <span>Organization</span>
+        <input type="text" id="organization" maxlength="100">
+      </label>
+      <div class="field-row">
+        <label class="field">
+          <span>Phone</span>
+          <input type="tel" id="vcardPhone" maxlength="20">
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" id="vcardEmail" maxlength="254">
+        </label>
+      </div>
+      <label class="field">
+        <span>Website</span>
+        <input type="url" id="vcardWebsite" maxlength="500">
+      </label>
+    </div>
+
+    <h2 class="card-title">2. Customize</h2>
+
+    <div class="field">
+      <span>Quick styles</span>
+      <div class="preset-strip" id="presetStrip"></div>
+    </div>
+
+    <div class="field-row">
+      <label class="field">
+        <span>Size <em id="sizeDisplay">280px</em></span>
+        <input type="range" id="sizeRange" min="150" max="500" value="280" step="10">
+      </label>
+      <label class="field">
+        <span>Error correction</span>
+        <select id="errorLevel">
+          <option value="L">Low (~7%)</option>
+          <option value="M" selected>Medium (~15%)</option>
+          <option value="Q">Quartile (~25%)</option>
+          <option value="H">High (~30%)</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="field-row">
+      <label class="field field-color">
+        <span>Foreground</span>
+        <input type="color" id="foregroundColor" value="#111827">
+      </label>
+      <label class="field field-color">
+        <span>Background</span>
+        <input type="color" id="backgroundColor" value="#ffffff">
+      </label>
+    </div>
+
+    <details class="advanced">
+      <summary>Style &amp; gradient</summary>
+      <div class="field-row">
+        <label class="field">
+          <span>Dot style</span>
+          <select id="dotStyle">
+            <option value="square">Square</option>
+            <option value="rounded">Rounded</option>
+            <option value="dots">Dots</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Corner style</span>
+          <select id="cornerStyle">
+            <option value="square">Square</option>
+            <option value="rounded">Rounded</option>
+            <option value="dot">Dot</option>
+          </select>
+        </label>
+      </div>
+      <label class="checkbox">
+        <input type="checkbox" id="eyeColorEnabled">
+        <span>Custom corner color</span>
+      </label>
+      <div class="field-row" id="eyeColorRow" hidden>
+        <label class="field field-color">
+          <span>Corner color</span>
+          <input type="color" id="eyeColor" value="#111827">
+        </label>
+      </div>
+      <label class="checkbox">
+        <input type="checkbox" id="gradientEnabled">
+        <span>Use gradient instead of flat color</span>
+      </label>
+      <div class="field-row" id="gradientRow" hidden>
+        <label class="field">
+          <span>Gradient type</span>
+          <select id="gradientType">
+            <option value="linear">Linear</option>
+            <option value="radial">Radial</option>
+          </select>
+        </label>
+        <label class="field field-color">
+          <span>Second color</span>
+          <input type="color" id="gradientColor2" value="#6366f1">
+        </label>
+      </div>
+    </details>
+
+    <details class="advanced">
+      <summary>Logo</summary>
+      <label class="field">
+        <span>Upload image</span>
+        <input type="file" id="logoInput" accept="image/*">
+      </label>
+      <div class="field-row" id="logoSizeRow" hidden>
+        <label class="field">
+          <span>Logo size <em id="logoSizeDisplay">20%</em></span>
+          <input type="range" id="logoSizeRange" min="10" max="30" value="20" step="1">
+        </label>
+      </div>
+      <p class="hint" id="logoHint" hidden>Error correction switched to High so the code stays scannable.</p>
+      <button type="button" class="btn-ghost" id="removeLogoBtn" hidden>Remove logo</button>
+    </details>
+
+    <details class="advanced">
+      <summary>Frame &amp; label</summary>
+      <label class="checkbox">
+        <input type="checkbox" id="frameEnabled">
+        <span>Add a text banner</span>
+      </label>
+      <div id="frameFields" hidden>
+        <label class="field">
+          <span>Banner text</span>
+          <input type="text" id="frameText" maxlength="30" value="SCAN ME">
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span>Position</span>
+            <select id="framePosition">
+              <option value="bottom">Bottom</option>
+              <option value="top">Top</option>
+            </select>
+          </label>
+          <label class="field field-color">
+            <span>Banner color</span>
+            <input type="color" id="frameColor" value="#111827">
+          </label>
+          <label class="field field-color">
+            <span>Text color</span>
+            <input type="color" id="frameTextColor" value="#ffffff">
+          </label>
+        </div>
+      </div>
+    </details>
+
+    <button type="button" class="btn-primary" id="generateButton">Generate QR code</button>
+  </section>
+
+  <section class="card preview-card" aria-labelledby="preview-heading">
+    <h2 id="preview-heading" class="card-title">Preview</h2>
+    <div class="preview-box" id="qrDisplay">
+      <p class="placeholder" id="qrPlaceholder">Your QR code will appear here</p>
+      <div id="qrcode"></div>
+      <div id="bulkGrid" class="bulk-grid" hidden></div>
+      <dl class="qr-meta" id="qrInfo" hidden></dl>
+      <div class="actions" id="actionButtons" hidden></div>
+    </div>
+    <div id="messages" aria-live="polite"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>QR AllWays — everything runs in your browser. Nothing you enter is uploaded anywhere.</p>
+  </div>
+</footer>
+
+<script src="libs/qrcode.min.js"></script>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/renderer.js"></script>
+<script src="assets/js/zip.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

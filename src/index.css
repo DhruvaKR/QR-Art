@@ -492,6 +492,15 @@ input[type="file"] {
 
 .site-footer strong { color: #fff; }
 
+.footer-credit {
+  color: #c7d2fe;
+  text-decoration: none;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.footer-credit:hover { color: #fff; text-decoration: underline; }
+
 @media (max-width: 720px) {
   .section { padding: 28px 18px; }
   .section-head h2 { font-size: 1.1rem; }

@@ -357,6 +357,14 @@ export default function App() {
       <footer className="site-footer">
         <div className="site-footer-inner">
           <span><strong>QR Art</strong> — everything runs in your browser. Nothing you enter is uploaded anywhere.</span>
+          <a
+            href="https://www.linkedin.com/in/dhruva-kumar-reddy-bodingaru-17354b384"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-credit"
+          >
+            Developed by Dhruva
+          </a>
         </div>
       </footer>
     </div>

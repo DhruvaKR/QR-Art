@@ -360,7 +360,7 @@ export default function App() {
         <div className="site-footer-inner">
           <span><strong>QR Art</strong> — everything runs in your browser. Nothing you enter is uploaded anywhere.</span>
           <div className="footer-credit">
-            <span>Developed by Dhruva</span>
+            <span>Developed by B.Dhruva</span>
             <a
               href="https://www.linkedin.com/in/dhruva-kumar-reddy-bodingaru-17354b384"
               target="_blank"

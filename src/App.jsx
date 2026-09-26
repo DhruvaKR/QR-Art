@@ -254,10 +254,10 @@ export default function App() {
             <img className="brand-mark" src={brandLogo} alt="QR Art logo" />
             <div className="brand-text">
               <h1>QR Art</h1>
-              <p>Custom QR codes in seconds</p>
+              <p>Free custom QR codes in seconds — no sign up, no login</p>
             </div>
           </div>
-          <span className="header-badge">Free &amp; private — runs in your browser</span>
+          <span className="header-badge">100% free — no login required</span>
         </div>
       </header>
 
@@ -350,6 +350,40 @@ export default function App() {
               <div className="how-step">
                 <h3>Download &amp; share</h3>
                 <p>Save as PNG or SVG, or copy it straight to your clipboard.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section section-a">
+          <div className="section-inner">
+            <div className="section-head">
+              <div>
+                <h2>Frequently asked questions</h2>
+                <p>The short version: it's free, and there's nothing to sign up for.</p>
+              </div>
+            </div>
+
+            <div className="faq-list">
+              <div className="faq-item">
+                <h3>Is QR Art really free?</h3>
+                <p>Yes. QR Art is completely free with no hidden fees, subscriptions, or premium tiers.</p>
+              </div>
+              <div className="faq-item">
+                <h3>Do I need to sign up or log in?</h3>
+                <p>No. There's no sign-up, no login, and no account of any kind — just open the page and generate your QR code.</p>
+              </div>
+              <div className="faq-item">
+                <h3>Is my data safe? Where is it stored?</h3>
+                <p>Everything happens in your browser. Nothing you type or upload is ever sent to a server, so there's nothing to store or leak.</p>
+              </div>
+              <div className="faq-item">
+                <h3>What can I make QR codes for?</h3>
+                <p>Plain text, website URLs, multiple URLs combined into one code, email, phone numbers, SMS, WiFi networks, and contact cards (vCard).</p>
+              </div>
+              <div className="faq-item">
+                <h3>What formats can I download?</h3>
+                <p>PNG or SVG, or you can copy the image straight to your clipboard.</p>
               </div>
             </div>
           </div>

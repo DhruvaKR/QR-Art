@@ -469,6 +469,34 @@ input[type="file"] {
   line-height: 1.45;
 }
 
+/* ---------- FAQ ---------- */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-item {
+  background: var(--surface-b);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.faq-item h3 {
+  margin: 0 0 4px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
 /* ---------- Footer ---------- */
 .site-footer {
   background: linear-gradient(115deg, var(--ink) 0%, var(--ink-2) 100%);

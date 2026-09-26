@@ -4,6 +4,8 @@ A free, fast QR code generator that runs entirely in the browser — no
 sign-up, no server, nothing you enter ever leaves your device. Built with
 React + Vite.
 
+**Live demo:** [dhruvakr.github.io/QR-Art](https://dhruvakr.github.io/QR-Art/)
+
 ## Features
 
 - **Multiple content types**: text, URLs, email, phone, SMS, WiFi, contact card (vCard) — picked from an icon toolbar with a one-line description of what each type does
@@ -50,11 +52,16 @@ npm run build   # outputs to dist/
 npm run preview # serve the production build locally
 ```
 
-## Deploying on Vercel
+## Deploying
 
-This is a standard Vite app — Vercel auto-detects it. Push to a Git repo,
-import it in Vercel, and it will run `npm run build` and serve `dist/`
-with no extra configuration.
+**GitHub Pages** (current setup): a GitHub Actions workflow
+(`.github/workflows/deploy.yml`) builds and deploys to Pages on every
+push to `main`. Requires the repo's Settings → Pages → Source set to
+"GitHub Actions". `vite.config.js` sets `base: '/QR-Art/'` to match this
+repo's name — update it if the repo is ever renamed again.
+
+**Vercel**: also works with zero config — import the repo and it will
+run `npm run build` and serve `dist/`.
 
 ## License
 

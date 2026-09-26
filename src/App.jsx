@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import qrcodegen from 'qrcode-generator';
+import brandLogo from './assets/logo.png';
 import TypePicker from './components/TypePicker.jsx';
 import ContentForm from './components/ContentForm.jsx';
 import CustomizePanel from './components/CustomizePanel.jsx';
 import PreviewPanel from './components/PreviewPanel.jsx';
+import { GithubIcon, LinkedInIcon } from './icons.jsx';
 import { DataBuilders, TYPE_DESCRIPTIONS } from './lib/dataBuilders.js';
 import { renderCanvas, renderSVG } from './lib/renderer.js';
 import { STYLE_PRESETS } from './lib/presets.js';
@@ -249,7 +251,7 @@ export default function App() {
       <header className="site-header">
         <div className="site-header-inner">
           <div className="brand">
-            <span className="brand-mark">QR</span>
+            <img className="brand-mark" src={brandLogo} alt="QR Art logo" />
             <div className="brand-text">
               <h1>QR Art</h1>
               <p>Custom QR codes in seconds</p>
@@ -357,14 +359,29 @@ export default function App() {
       <footer className="site-footer">
         <div className="site-footer-inner">
           <span><strong>QR Art</strong> — everything runs in your browser. Nothing you enter is uploaded anywhere.</span>
-          <a
-            href="https://www.linkedin.com/in/dhruva-kumar-reddy-bodingaru-17354b384"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-credit"
-          >
-            Developed by Dhruva
-          </a>
+          <div className="footer-credit">
+            <span>Developed by Dhruva</span>
+            <a
+              href="https://www.linkedin.com/in/dhruva-kumar-reddy-bodingaru-17354b384"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-icon-link"
+              aria-label="LinkedIn profile"
+              title="LinkedIn"
+            >
+              <LinkedInIcon />
+            </a>
+            <a
+              href="https://github.com/DhruvaKR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-icon-link"
+              aria-label="GitHub profile"
+              title="GitHub"
+            >
+              <GithubIcon />
+            </a>
+          </div>
         </div>
       </footer>
     </div>

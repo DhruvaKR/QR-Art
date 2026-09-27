@@ -54,6 +54,16 @@ export function ContactIcon(props) {
   );
 }
 
+export function UpiIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="2" y="6" width="20" height="12" rx="2" />
+      <circle cx="12" cy="12" r="2.5" />
+      <path d="M6 6v12M18 6v12" />
+    </svg>
+  );
+}
+
 export function DownloadIcon(props) {
   return <svg {...base} {...props}><path d="M12 3v12" /><path d="M7 10l5 5 5-5" /><path d="M5 21h14" /></svg>;
 }
@@ -116,5 +126,6 @@ export const TYPE_ICONS = {
   phone: PhoneIcon,
   sms: SmsIcon,
   wifi: WifiIcon,
+  upi: UpiIcon,
   vcard: ContactIcon
 };

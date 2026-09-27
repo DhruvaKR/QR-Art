@@ -8,6 +8,7 @@ const TYPES = [
   { key: 'phone', label: 'Phone' },
   { key: 'sms', label: 'SMS' },
   { key: 'wifi', label: 'WiFi' },
+  { key: 'upi', label: 'UPI' },
   { key: 'vcard', label: 'Contact' }
 ];
 

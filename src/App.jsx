@@ -515,7 +515,7 @@ export default function App() {
               </div>
               <div className="faq-item">
                 <h3>What can I make QR codes for?</h3>
-                <p>Plain text, website URLs, multiple URLs combined into one code, email, phone numbers, SMS, WiFi networks, and contact cards (vCard).</p>
+                <p>Plain text, website URLs, multiple URLs combined into one code, email, phone numbers, SMS, WiFi networks, UPI payments, and contact cards (vCard).</p>
               </div>
               <div className="faq-item">
                 <h3>What formats can I download?</h3>

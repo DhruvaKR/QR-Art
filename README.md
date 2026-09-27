@@ -8,8 +8,9 @@ React + Vite.
 
 ## Features
 
-- **Multiple content types**: text, URLs, email, phone, SMS, WiFi, contact card (vCard) — picked from an icon toolbar with a one-line description of what each type does
+- **Multiple content types**: text, URLs, email, phone, SMS, WiFi, UPI payment, contact card (vCard) — picked from an icon toolbar with a one-line description of what each type does
 - **Multi URL**: paste several URLs (one per line) and combine them into a single QR code — scanning it reveals the whole list as text
+- **UPI payments**: generate a `upi://pay` QR (payee VPA, name, optional amount and note) that opens directly in Google Pay, PhonePe, or any UPI app
 - **Quick style presets**: a row of live mini-QR thumbnails (Classic, Indigo Rounded, Dots, Indigo Gradient, Sunset) — click one to apply that whole look instantly
 - **Custom styling**: flat colors or linear/radial gradients, square/rounded/dot module shapes, independent corner (eye) styling
 - **Logo embedding**: upload any image to sit in the center of the code (error correction auto-switches to High for scannability)

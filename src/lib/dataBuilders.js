@@ -2,6 +2,7 @@
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+]?[1-9][\d]{0,15}$/;
+const UPI_VPA_RE = /^[\w.+-]+@[\w.-]+$/;
 
 function cleanPhone(value) {
   return value.replace(/[-\s()]/g, '');
@@ -85,6 +86,29 @@ export const DataBuilders = {
     return `WIFI:T:${v.wifiSecurity};S:${ssid};P:${v.wifiPassword || ''};H:false;;`;
   },
 
+  upi(v) {
+    const vpa = v.upiVpa.trim();
+    const name = v.upiName.trim();
+    if (!vpa && !name) return '';
+
+    if (!vpa) throw new Error('Please enter a UPI ID.');
+    if (!UPI_VPA_RE.test(vpa)) throw new Error('Please enter a valid UPI ID (e.g. name@bank).');
+    if (!name) throw new Error('Please enter the payee name.');
+
+    let amount = '';
+    if (v.upiAmount.trim()) {
+      const n = Number(v.upiAmount.trim());
+      if (!Number.isFinite(n) || n <= 0) throw new Error('Please enter a valid amount.');
+      amount = n.toFixed(2);
+    }
+
+    let data = `upi://pay?pa=${encodeURIComponent(vpa)}&pn=${encodeURIComponent(name)}`;
+    if (amount) data += `&am=${amount}`;
+    data += '&cu=INR';
+    if (v.upiNote.trim()) data += `&tn=${encodeURIComponent(v.upiNote.trim())}`;
+    return data;
+  },
+
   vcard(v) {
     const first = v.firstName.trim();
     const last = v.lastName.trim();
@@ -123,6 +147,7 @@ export const DATA_TYPE_LABELS = {
   phone: 'Phone number',
   sms: 'SMS message',
   wifi: 'WiFi network',
+  upi: 'UPI payment',
   vcard: 'Contact card'
 };
 
@@ -134,5 +159,6 @@ export const TYPE_DESCRIPTIONS = {
   phone: 'Dial a number as soon as it’s scanned.',
   sms: 'Open a pre-filled text message, ready to send.',
   wifi: 'Join a WiFi network without typing the password.',
+  upi: 'Request a UPI payment — opens directly in Google Pay, PhonePe, or any UPI app.',
   vcard: 'Share a contact card that saves straight to an address book.'
 };

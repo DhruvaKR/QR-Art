@@ -102,6 +102,32 @@ export default function ContentForm({ activeType, fields, onChange }) {
     );
   }
 
+  if (activeType === 'upi') {
+    return (
+      <>
+        <label className="field">
+          <span>UPI ID (VPA)</span>
+          <input type="text" maxLength={100} placeholder="name@bank" value={fields.upiVpa} onChange={set('upiVpa')} />
+        </label>
+        <label className="field">
+          <span>Payee name</span>
+          <input type="text" maxLength={50} placeholder="Your name or business" value={fields.upiName} onChange={set('upiName')} />
+        </label>
+        <div className="field-row">
+          <label className="field">
+            <span>Amount (optional)</span>
+            <input type="text" inputMode="decimal" maxLength={12} placeholder="e.g. 250" value={fields.upiAmount} onChange={set('upiAmount')} />
+          </label>
+          <label className="field">
+            <span>Note (optional)</span>
+            <input type="text" maxLength={50} placeholder="What's this for?" value={fields.upiNote} onChange={set('upiNote')} />
+          </label>
+        </div>
+        <p className="hint">Leave amount blank to let the payer enter their own amount when scanning.</p>
+      </>
+    );
+  }
+
   if (activeType === 'vcard') {
     return (
       <>

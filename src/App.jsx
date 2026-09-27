@@ -5,13 +5,39 @@ import TypePicker from './components/TypePicker.jsx';
 import ContentForm from './components/ContentForm.jsx';
 import CustomizePanel from './components/CustomizePanel.jsx';
 import PreviewPanel from './components/PreviewPanel.jsx';
-import { GithubIcon, LinkedInIcon } from './icons.jsx';
+import ScannerPanel from './components/ScannerPanel.jsx';
+import { GithubIcon, LinkedInIcon, SunIcon, MoonIcon } from './icons.jsx';
 import { DataBuilders, TYPE_DESCRIPTIONS } from './lib/dataBuilders.js';
 import { renderCanvas, renderSVG } from './lib/renderer.js';
 import { STYLE_PRESETS } from './lib/presets.js';
 import { DEFAULT_FIELDS, DEFAULT_OPTS, downloadHref } from './lib/constants.js';
 
+const HISTORY_KEY = 'qrArtHistory';
+const THEME_KEY = 'qrArtTheme';
+const HISTORY_MAX = 12;
+
+function loadHistory() {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function loadInitialTheme() {
+  try {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === 'dark' || stored === 'light') return stored;
+  } catch {
+    // localStorage unavailable — fall through to system preference
+  }
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
 export default function App() {
+  const [mode, setMode] = useState('generate');
+  const [theme, setTheme] = useState(loadInitialTheme);
   const [activeType, setActiveType] = useState('text');
   const [fields, setFields] = useState(DEFAULT_FIELDS);
   const [opts, setOpts] = useState(DEFAULT_OPTS);
@@ -23,6 +49,7 @@ export default function App() {
   const [info, setInfo] = useState(null);
   const [message, setMessage] = useState(null);
   const [showPlaceholder, setShowPlaceholder] = useState(true);
+  const [history, setHistory] = useState(loadHistory);
 
   const canvasWrapRef = useRef(null);
   const presetStripRef = useRef(null);
@@ -30,6 +57,41 @@ export default function App() {
   const autoTimerRef = useRef(null);
   const didMountRef = useRef(false);
   const prevErrorLevelRef = useRef('M');
+
+  // Apply and persist the color theme.
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch {
+      // localStorage unavailable (private mode, disabled storage) — theme still applies for this session
+    }
+  }, [theme]);
+
+  function toggleTheme() {
+    setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
+  }
+
+  function addToHistory(entry) {
+    setHistory((h) => {
+      const next = [entry, ...h].slice(0, HISTORY_MAX);
+      try {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+      } catch {
+        // localStorage unavailable — history just won't persist across reloads
+      }
+      return next;
+    });
+  }
+
+  function clearHistory() {
+    setHistory([]);
+    try {
+      localStorage.removeItem(HISTORY_KEY);
+    } catch {
+      // nothing to clean up if storage was never available
+    }
+  }
 
   // Lock error correction to High while a logo is present.
   useEffect(() => {
@@ -54,7 +116,7 @@ export default function App() {
     };
   }
 
-  function generateSingle(auto) {
+  function generateSingle(auto, skipHistory) {
     const text = DataBuilders[activeType](fields);
     if (!text || !text.trim()) throw new Error('Please fill in the required fields.');
     if (text.length > 2953) throw new Error('Data is too long. Please reduce the content size.');
@@ -70,11 +132,15 @@ export default function App() {
       canvasWrapRef.current.appendChild(canvas);
     }
 
+    const dataURL = canvas.toDataURL('image/png', 1.0);
     setCurrentQRText(text);
-    setCurrentPNGDataURL(canvas.toDataURL('image/png', 1.0));
+    setCurrentPNGDataURL(dataURL);
     setInfo({ type: activeType, width: canvas.width, height: canvas.height, length: text.length, errorLevel: renderOpts.errorLevel });
     setShowPlaceholder(false);
-    if (!auto) setMessage({ text: 'QR code generated.', kind: 'success' });
+    if (!auto) {
+      setMessage({ text: 'QR code generated.', kind: 'success' });
+      if (!skipHistory) addToHistory({ id: Date.now(), type: activeType, snippet: text.slice(0, 40), dataURL });
+    }
   }
 
   function renderPresetStrip() {
@@ -124,14 +190,14 @@ export default function App() {
     }));
   }
 
-  function generate(auto) {
+  function generate(auto, skipHistory) {
     setMessage(null);
     if (canvasWrapRef.current) canvasWrapRef.current.innerHTML = '';
     setInfo(null);
     setShowPlaceholder(true);
 
     try {
-      generateSingle(auto);
+      generateSingle(auto, skipHistory);
     } catch (err) {
       setShowPlaceholder(true);
       const isEmptyInput = err.message === 'Please fill in the required fields.';
@@ -148,7 +214,7 @@ export default function App() {
   useEffect(() => {
     if (!didMountRef.current) {
       didMountRef.current = true;
-      generate(false);
+      generate(false, true); // show the initial demo, but don't clutter history with it
       return;
     }
     clearTimeout(autoTimerRef.current);
@@ -257,11 +323,43 @@ export default function App() {
               <p>Free custom QR codes in seconds — no sign up, no login</p>
             </div>
           </div>
-          <span className="header-badge">100% free — no login required</span>
+          <div className="header-right">
+            <span className="header-badge">100% free — no login required</span>
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+            >
+              {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+            </button>
+          </div>
         </div>
       </header>
 
+      <div className="mode-bar">
+        <div className="mode-bar-inner">
+          <button
+            type="button"
+            className={`mode-btn${mode === 'generate' ? ' active' : ''}`}
+            onClick={() => setMode('generate')}
+          >
+            Generate
+          </button>
+          <button
+            type="button"
+            className={`mode-btn${mode === 'scan' ? ' active' : ''}`}
+            onClick={() => setMode('scan')}
+          >
+            Scan
+          </button>
+        </div>
+      </div>
+
       <main>
+        {mode === 'generate' && (
+          <>
         <section className="section section-a">
           <div className="section-inner">
             <div className="section-head">
@@ -322,8 +420,46 @@ export default function App() {
               onDownloadSvg={downloadSVGFile}
               onCopy={copyToClipboard}
             />
+
+            {history.length > 0 && (
+              <div className="history-strip">
+                <div className="history-head">
+                  <span>Recent</span>
+                  <button type="button" className="history-clear" onClick={clearHistory}>Clear</button>
+                </div>
+                <div className="history-items">
+                  {history.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      className="history-item"
+                      title={item.snippet}
+                      onClick={() => downloadHref(item.dataURL, `qrcode-${item.id}.png`)}
+                    >
+                      <img src={item.dataURL} alt={item.snippet} />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
+          </>
+        )}
+
+        {mode === 'scan' && (
+          <section className="section section-c">
+            <div className="section-inner">
+              <div className="section-head">
+                <div>
+                  <h2>Scan a QR code</h2>
+                  <p>Upload an image or use your camera — nothing leaves your browser.</p>
+                </div>
+              </div>
+              <ScannerPanel />
+            </div>
+          </section>
+        )}
 
         <section className="section section-d">
           <div className="section-inner">

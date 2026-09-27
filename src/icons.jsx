@@ -66,6 +66,32 @@ export function CopyIcon(props) {
   return <svg {...base} {...props}><rect x="9" y="9" width="12" height="12" rx="2" /><path d="M5 15V5a2 2 0 012-2h10" /></svg>;
 }
 
+export function SunIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+    </svg>
+  );
+}
+
+export function MoonIcon(props) {
+  return <svg {...base} {...props}><path d="M20 14.5A8.5 8.5 0 1110 3.5a7 7 0 0010 11z" /></svg>;
+}
+
+export function CameraIcon(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1z" />
+      <circle cx="12" cy="14" r="3.5" />
+    </svg>
+  );
+}
+
+export function UploadIcon(props) {
+  return <svg {...base} {...props}><path d="M12 21V9" /><path d="M7 14l5-5 5 5" /><path d="M5 3h14" /></svg>;
+}
+
 export function GithubIcon(props) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
